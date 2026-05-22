@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aecttann.github.io/labra-site/sitemap.xml
