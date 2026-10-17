@@ -1,28 +1,20 @@
-(function () {
-  var currentPath = window.location.pathname;
-  var links = document.querySelectorAll("[data-language-target]");
-
-  links.forEach(function (link) {
-    var target = link.getAttribute("data-language-target");
-    if (!target) return;
-
-    link.addEventListener("click", function () {
-      try {
-        localStorage.setItem("labra-language", target);
-      } catch (error) {
-        return;
-      }
-    });
+'use strict';
+document.documentElement.classList.add('js');
+const menuButton = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#nav-links');
+if (menuButton && navigation) {
+  const setMenu = open => {
+    menuButton.setAttribute('aria-expanded', String(open));
+    navigation.dataset.open = String(open);
+  };
+  menuButton.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+  navigation.addEventListener('click', event => {
+    if (event.target.closest('a')) setMenu(false);
   });
-
-  if (currentPath === "/" || currentPath.endsWith("/index.html")) {
-    try {
-      var language = localStorage.getItem("labra-language");
-      if (language === "en") {
-        window.location.replace("/en/");
-      }
-    } catch (error) {
-      return;
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menuButton.focus();
     }
-  }
-})();
+  });
+}
